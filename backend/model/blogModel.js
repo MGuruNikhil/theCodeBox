@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const blogShema = mongoose.Schema({
+const blogSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -13,6 +13,6 @@ const blogShema = mongoose.Schema({
         type: String,
         required: true
     }
-},{ timestamp: true });
+}, { timestamps: true });
 
-export const Blog = mongoose.model('Blog', blogShema);
+export const Blog = mongoose.model('Blog', blogSchema);
