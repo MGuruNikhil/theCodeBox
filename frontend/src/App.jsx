@@ -6,6 +6,8 @@ import EditBlog from './pages/EditBlog';
 import DeleteBlog from './pages/DeleteBlog';
 import PageNotFound from './pages/PageNotFound';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Register from './pages/Register';
+import Login from './pages/Login';
 
 const App = () => {
 	return (
@@ -13,6 +15,8 @@ const App = () => {
 			<BrowserRouter>
 				<Routes>
 					<Route path='/' element={<Blogs />} />
+					<Route path='/register' element={<Register />} />
+					<Route path='/login' element={<Login />} />
 					<Route path='/create' element={<CreateBlog />} />
 					<Route path='/read/:id' element={ <ReadBlog />} />
 					<Route path='/edit/:id' element={<EditBlog />} />
