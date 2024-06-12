@@ -28,12 +28,12 @@ const Feed = () => {
     }, []);
 
     return (
-        <div className='flex flex-col overflow-auto items-center m-auto w-[80%] h-full p-2'>
+        <div className='flex flex-col overflow-auto items-center m-auto w-[80%] h-full p-2 gap-2'>
             {isLoading ? <CircularProgress /> : 
                 <> 
                     {blogs.length > 0 ? blogs.map((blog, index) => (
                         <div key={index} onClick={() => {navigate('/read/'+blog._id)}} className='w-full flex flex-col px-4 py-2 bg-[#69b3e3] rounded-xl cursor-pointer'>
-                            <h1>{blog.title}</h1>
+                            <p className='font-bold text-2xl'>{blog.title}</p>
                             <p>{blog.body.substring(0, 100)}...</p>
                             <span className='self-end'>- {blog.author}</span>
                         </div>

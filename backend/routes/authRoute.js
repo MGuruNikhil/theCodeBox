@@ -37,12 +37,27 @@ router.post("/login", function (req, res) {
             });
         } else {
             passport.authenticate("local")(req, res, function() {
+                let user = req.user;
                 res.status(200).send({
+                    user: user,
                     message: "Successfully logged in",
                 });
             })
         }
     });
+});
+
+router.get("/user", function (req, res) {
+    if(req.isAuthenticated()) {
+        const user = req.user;
+        res.status(200).send({
+            user: user,
+        });
+    } else {
+        res.status(401).send({
+            message: "unauthorized",
+        });
+    }
 });
 
 router.get("/logout", function(req, res) {
