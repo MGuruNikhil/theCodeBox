@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
                 });
             }
     
-            const newBlog = { title, body, userId: currentUser._id };
+            const newBlog = { title, body, authorId: currentUser._id, authorDisplayName: currentUser.displayName };
             const blog = await Blog.create(newBlog);
 
             return res.status(201).send(blog);
@@ -78,7 +78,7 @@ router.put("/:id", async (req, res) => {
     
             if (!title || !body) {
                 return res.status(400).send({
-                    message: "Send all the required data (title, author, body)",
+                    message: "Send all the required data (title, body)",
                 });
             }
 
@@ -89,14 +89,15 @@ router.put("/:id", async (req, res) => {
                     message: "Blog not found",
                 });
             } else {
-                if(oldBlog.userId != currentUser._id) {
+                if(oldBlog.authorId != currentUser._id) {
                     return res.status(403).json({
                         message: "write permissions not given",
                     });
                 } else {
                     oldBlog.title = title;
                     oldBlog.body = body;
-                    oldBlog.userId = currentUser._id;
+                    oldBlog.authorId = currentUser._id;
+                    oldBlog.authorDisplayName = currentUser.displayName;
                     await oldBlog.save();
                     return res.status(200).send({
                         message: "Blog updated successfully",
@@ -130,7 +131,7 @@ router.delete("/:id", async (req, res) => {
                 });
             }
 
-            if(result.userId != currentUser._id) {
+            if(result.authorId != currentUser._id) {
                 return res.status(403).json({
                     message: "write permissions not given",
                 });

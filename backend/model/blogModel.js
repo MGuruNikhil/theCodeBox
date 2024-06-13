@@ -5,11 +5,15 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    userId: {
+    authorId: {
         type: String,
         required: true
     },
     body: {
+        type: String,
+        required: true
+    },
+    authorDisplayName: {
         type: String,
         required: true
     }

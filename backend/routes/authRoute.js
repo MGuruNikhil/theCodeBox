@@ -5,7 +5,16 @@ import { User } from "../model/userModel.js";
 const router = express.Router();
 
 router.post("/register", function (req, res) {
-    User.register({ username: req.body.username }, req.body.password, async function (error, user) {
+    
+    const { username, password, displayName } = req.body;
+
+    if(!username || !password || !displayName) {
+        return res.status(400).send({
+            message: "Send all the required data (username, password, displayName)",
+        });
+    }
+    
+    User.register({ username: username }, password, async function (error, user) {
         if (error) {
             console.log(error);
             res.status(500).send({
@@ -14,7 +23,7 @@ router.post("/register", function (req, res) {
         } else {
             console.log(user);
             passport.authenticate("local")(req, res, async function () {
-                user.displayName = req.body.displayName;
+                user.displayName = displayName;
                 user = await user.save();
                 res.status(200).send(user);
             });
