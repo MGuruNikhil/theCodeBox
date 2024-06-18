@@ -33,7 +33,7 @@ const ReadBlog = () => {
 					<div className='w-full h-full flex flex-col gap-2'>
 						<p className='text-3xl font-black'>{blog.title}</p>
 						<p>{blog.body}</p>
-						<p>Written by {blog.author}</p>
+						<p>Written by {blog.authorDisplayName}</p>
 					</div>
 				}
 			</div>

@@ -14,11 +14,7 @@ const Feed = () => {
         axios.get(apiUrl+"blogs/")
             .then((res) => {
                 console.log(res.data);
-                if (Array.isArray(res.data)) {
-                    setBlogs(res.data);
-                } else {
-                    console.error("API response is not an array");
-                }
+                setBlogs(res.data);
                 setIsLoading(false);
             })
             .catch((error) => {
@@ -35,7 +31,7 @@ const Feed = () => {
                         <div key={index} onClick={() => {navigate('/read/'+blog._id)}} className='w-full flex flex-col px-4 py-2 bg-[#69b3e3] rounded-xl cursor-pointer'>
                             <p className='font-bold text-2xl'>{blog.title}</p>
                             <p>{blog.body.substring(0, 100)}...</p>
-                            <span className='self-end'>- {blog.author}</span>
+                            <span className='self-end'>- {blog.authorDisplayName}</span>
                         </div>
                     )) : 
                         <>No blogs found</>
