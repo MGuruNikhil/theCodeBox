@@ -29,11 +29,13 @@ const Login = () => {
     const handleSubmit = async (e) => {
         setIsLoading(true);
         e.preventDefault();
-        axios.post(apiUrl+"auth/login", {
+        axios.post(apiUrl + "auth/login", {
             username: email,
             password,
+        }, {
+            withCredentials: true,
         }).then((res) => {
-            console.log(res.data);
+            console.log(res);
             setCurrentUser(res.data);
             setIsLoading(false);
             navigate("/");
@@ -41,7 +43,8 @@ const Login = () => {
             console.log(error);
             setIsLoading(false);
         });
-    }
+    };
+    
 
     return (
         <div className='w-full h-full flex items-center justify-center'>

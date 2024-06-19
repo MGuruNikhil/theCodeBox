@@ -9,7 +9,7 @@ export const AuthContextProvider = ({children}) => {
 
     useEffect(()=>{
         const unsubscribe = () => {
-            axios.get(apiUrl+"/auth/user")
+            axios.get(apiUrl+"auth/user")
                 .then((res) => {
                     console.log(res.data.user);
                     setCurrentUser(res.data.user);

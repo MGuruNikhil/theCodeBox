@@ -15,12 +15,20 @@ const app = express();
 // Middleware for parcing request body
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://the-code-box.vercel.app', // Update to your client's URL
+    credentials: true,
+}));
 
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none", // Adjust as needed
+    }
 }));
 
 app.use(passport.initialize());
