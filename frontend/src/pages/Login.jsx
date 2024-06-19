@@ -36,6 +36,7 @@ const Login = () => {
             withCredentials: true,
         }).then((res) => {
             console.log(res);
+            console.log(document.cookie);
             setCurrentUser(res.data);
             setIsLoading(false);
             navigate("/");
