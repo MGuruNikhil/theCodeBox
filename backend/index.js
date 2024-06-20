@@ -12,23 +12,25 @@ import { User } from "./model/userModel.js";
 
 const app = express();
 
-// Middleware for parcing request body
+// Middleware for parsing request body
 app.use(express.json());
 
+// CORS Configuration
 app.use(cors({
     origin: 'https://the-code-box.vercel.app',
-    methods: ['POST', 'GET', 'PUT', 'DELETE'],
+    methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
 }));
 
+// Session Configuration
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: true,
-        sameSite: 'none',
+        secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+        sameSite: 'none', // Required for cross-origin requests
     }
 }));
 
@@ -41,17 +43,15 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use('/auth', authRoute);
-
 app.use('/blogs', blogsRoute);
 
 mongoose.connect(mongoDBURL)
     .then(() => {
         console.log("App connected to database");
         app.listen(PORT, () => {
-            console.log("App is listening to port "+PORT);
+            console.log("App is listening to port " + PORT);
         });
     })
     .catch((error) => {
         console.log(error);
     });
-
