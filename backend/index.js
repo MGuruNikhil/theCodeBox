@@ -17,8 +17,7 @@ app.use(express.json());
 
 // CORS Configuration
 app.use(cors({
-    origin: 'https://the-code-box.vercel.app',
-    methods: ["POST", "GET", "PUT", "DELETE"],
+    origin: 'https://the-code-box.vercel.app', // Only allow this origin
     credentials: true,
 }));
 
@@ -29,7 +28,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+        secure: true, // Ensure cookies are only sent over HTTPS
         sameSite: 'none', // Required for cross-origin requests
     }
 }));
@@ -55,3 +54,5 @@ mongoose.connect(mongoDBURL)
     .catch((error) => {
         console.log(error);
     });
+
+export default app; // Ensure app is exported for serverless deployment
