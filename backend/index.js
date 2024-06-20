@@ -17,6 +17,7 @@ app.use(express.json());
 
 app.use(cors({
     origin: 'https://the-code-box.vercel.app',
+    methods: ['POST', 'GET', 'PUT', 'DELETE'],
     credentials: true,
 }));
 
