@@ -1,6 +1,6 @@
 import React from 'react'
 import PrimarySearchAppBar from '../MUIComponents.jsx/PrimarySearchAppBar';
-import Feed from '../context/Feed';
+import Feed from '../components/Feed';
 import axios from 'axios';
 import { apiUrl } from '../config';
 
