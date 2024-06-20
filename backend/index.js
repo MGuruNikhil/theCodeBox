@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-    origin: 'https://the-code-box.vercel.app', // Update to your client's URL
+    origin: 'https://the-code-box.vercel.app',
     credentials: true,
 }));
 
@@ -27,7 +27,7 @@ app.use(session({
     cookie: {
         httpOnly: true,
         secure: true,
-        sameSite: "none", // Adjust as needed
+        sameSite: 'none',
     }
 }));
 
