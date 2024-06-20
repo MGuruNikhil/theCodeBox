@@ -11,7 +11,7 @@ const Feed = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get(apiUrl+"blogs/")
+        axios.get(apiUrl+"blogs")
             .then((res) => {
                 console.log(res.data);
                 setBlogs(res.data);
