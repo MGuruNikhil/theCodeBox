@@ -42,7 +42,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.get('/', function (req, res) {
-    res.send('hello world')
+    res.json('hello world')
 });
 
 app.use('/auth', authRoute);
