@@ -1,7 +1,15 @@
 import app from "./app";
+import mongoose from "mongoose";
+import { PORT, mongoDBURL } from "./config.js";
 
-const port = 5555;
 
-app.listen(port, () => {
-  console.log(`listening:${port}`);
+mongoose.connect(mongoDBURL)
+.then(() => {
+    console.log("App connected to database");
+    app.listen(PORT, () => {
+        console.log(`listening:${PORT}`);
+    });
+})
+.catch((error) => {
+    console.log(error);
 });

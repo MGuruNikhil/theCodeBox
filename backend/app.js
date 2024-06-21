@@ -1,11 +1,9 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import session from "express-session";
 import passport from "passport";
 import passportLocalMongoose from "passport-local-mongoose";
 import 'dotenv/config';
-import { PORT, mongoDBURL } from "./config.js";
 import blogsRoute from "./routes/blogsRoute.js";
 import authRoute from "./routes/authRoute.js";
 import { User } from "./model/userModel.js";
@@ -49,13 +47,5 @@ app.get('/', function (req, res) {
 
 app.use('/auth', authRoute);
 app.use('/blogs', blogsRoute);
-
-mongoose.connect(mongoDBURL)
-.then(() => {
-    console.log("App connected to database");
-})
-.catch((error) => {
-    console.log(error);
-});
 
 export default app;
