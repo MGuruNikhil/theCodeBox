@@ -16,6 +16,7 @@ app.use(express.json());
 // CORS Configuration
 app.use(cors({
     origin: 'https://the-code-box.vercel.app', // Only allow this origin
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
 }));
 
