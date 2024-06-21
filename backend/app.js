@@ -29,6 +29,7 @@ app.use(session({
         httpOnly: true,
         secure: true, // Ensure cookies are only sent over HTTPS
         sameSite: 'none', // Required for cross-origin requests
+        maxAge: 1000 * 60 * 60 * 24 * 7 
     }
 }));
 
