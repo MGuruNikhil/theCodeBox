@@ -58,5 +58,3 @@ mongoose.connect(mongoDBURL)
     .catch((error) => {
         console.log(error);
     });
-
-export default app; // Ensure app is exported for serverless deployment
