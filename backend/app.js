@@ -1,12 +1,14 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
+import MongoStore from 'connect-mongo'
 import passport from "passport";
 import passportLocalMongoose from "passport-local-mongoose";
 import 'dotenv/config';
 import blogsRoute from "./routes/blogsRoute.js";
 import authRoute from "./routes/authRoute.js";
 import { User } from "./model/userModel.js";
+import { mongoDBURL } from "./config.js";
 
 const app = express();
 
@@ -31,6 +33,12 @@ app.use(session({
         sameSite: 'none', // Required for cross-origin requests
         maxAge: 1000 * 60 * 60 * 24 * 7 
     }
+}));
+
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: mongoDBURL,
+    })
 }));
 
 app.use(passport.initialize());
