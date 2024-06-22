@@ -27,12 +27,6 @@ app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        httpOnly: true,
-        secure: true, // Ensure cookies are only sent over HTTPS
-        sameSite: 'none', // Required for cross-origin requests
-        maxAge: 1000 * 60 * 60 * 24 * 7
-    },
     store: MongoStore.create({
         mongoUrl: mongoDBURL,
     })
