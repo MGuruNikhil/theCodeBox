@@ -1,6 +1,8 @@
 import express from "express";
 import passport from "passport";
 import { User } from "../model/userModel.js";
+import { compareSync, hashSync } from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -13,75 +15,80 @@ router.post("/register", function (req, res) {
             message: "Send all the required data (username, password, displayName)",
         });
     }
-    
-    User.register({ username: username }, password, async function (error, user) {
-        if (error) {
-            console.log(error);
-            res.status(500).send({
-                message: error.message,
-            });
-        } else {
-            console.log(user);
-            passport.authenticate("local")(req, res, async function () {
-                user.displayName = displayName;
-                user = await user.save();
-                res.status(200).send(user);
-            });
-        }
+
+    const user = new User({
+        username: username,
+        password: hashSync(password, 10),
+        displayName: displayName
     });
+
+    user.save().then(user => {
+        res.status(200).send({
+            message: "User created successfully",
+            user: {
+                id: user._id,
+                username: user.username,
+                displayName: user.displayName
+            }
+        })
+    }).catch(error => {
+        res.status(500).send({
+            message: error.message,
+        });
+    })
 });
 
 router.post("/login", function (req, res) {
 
-    const user = new User ({
-        username: req.body.username,
-        password: req.body.password
+    User.findOne({ username: req.body.username }).then(user => {
+        if(!user) {
+            return res.status(401).send({
+                message: "User not found"
+            })
+        }
+        if(!compareSync(req.body.password, user.password)) {
+            return res.status(401).send({
+                message: "Incorrect password"
+            })
+        }
+        const payload = {
+            id: user._id,
+            username: user.username,
+            displayName: user.displayName
+        }
+        const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1d" });
+        return res.status(200).send({
+            message: "Successfully logged in",
+            token: "Bearer " + token
+        });
+    });
+
+});
+
+router.get("/user", passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.status(200).send({
+        message: "u are among us",
+        user: {
+            id: req.user._id,
+            username: req.user.username,
+            displayName: req.user.displayName
+        }
     })
-
-    req.login(user, function (error) {
-        if (error) {
-            console.log(error);
-            res.status(500).send({
-                message: error.message,
-            });
-        } else {
-            passport.authenticate("local")(req, res, function() {
-                let user = req.user;
-                res.status(200).send({
-                    user: user,
-                    message: "Successfully logged in",
-                });
-            })
-        }
-    });
 });
 
-router.get("/user", function (req, res) {
-    if(req.isAuthenticated()) {
-        const user = req.user;
-        res.status(200).send({
-            user: user,
-        });
-    } else {
-        res.status(401).send({
-            message: "unauthorized",
-        });
-    }
-});
-
-router.get("/logout", function(req, res) {
-    req.logout(function(error) {
-        if (error) {
-            console.log(error);
-            res.status(500).send({
-                message: error.message,
-            });
-        } else {
-            res.status(200).send({
-                message: "Successfully logged out",
-            })
-        }
-    });
-});
+// router.get("/logout", function(req, res) {
+//     req.logout(function(error) {
+//         if (error) {
+//             console.log(error);
+//             res.status(500).send({
+//                 message: error.message,
+//             });
+//         } else {
+//             res.status(200).send({
+//                 message: "Successfully logged out",
+//             })
+//         }
+//     });
+// });
 
 export default router;
