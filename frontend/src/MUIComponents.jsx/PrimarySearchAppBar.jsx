@@ -14,7 +14,6 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Logo from '../components/Logo';
-import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { apiUrl } from '../config';
@@ -61,26 +60,42 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-    const { currentUser, setCurrentUser } = React.useContext(AuthContext);
+
+    const [currentUser, setCurrentUser] = React.useState(null);
+
+    const token = localStorage.getItem("token");
+
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const navigate = useNavigate();
 
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        setCurrentUser(null);
+        if(token) {
+            axios.get(apiUrl+'auth/user', {
+                headers: {
+                    Authorization: token,
+                }
+            }).then(res => {
+                setCurrentUser(res.data.user);
+            }).catch(error => {
+                console.log(error.message);
+            })
+        }
+        setIsLoading(false);
+    },[]);
+
     const handleShowProfile = () => {
 
     }
 
     const handleLogOut = () => {
-        axios.get(apiUrl+'auth/logout')
-        .then((res) => {
-            console.log(res.data);
-            setCurrentUser(null);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        localStorage.clear();
+        window.location.reload();
     }
 
     const handleRegister = () => {
@@ -103,21 +118,7 @@ export default function PrimarySearchAppBar() {
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
-        <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={mobileMenuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
-        >
+        <>
             {currentUser ? 
                 <Menu
                     anchorEl={mobileMoreAnchorEl}
@@ -202,7 +203,7 @@ export default function PrimarySearchAppBar() {
                     </MenuItem>
                 </Menu>
             }
-        </Menu>
+        </>
     );
 
     return (

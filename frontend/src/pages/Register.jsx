@@ -6,11 +6,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import LoadingButton from '@mui/lab/LoadingButton'
 import axios from 'axios'
 import { apiUrl } from '../config'
-import { AuthContext } from '../context/AuthContext'
 
 const Register = () => {
-
-    const { setCurrentUser } = useContext(AuthContext);
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -38,9 +35,10 @@ const Register = () => {
                 displayName
             }).then((res) => {
                 console.log(res.data);
-                setCurrentUser(res.data);
+                localStorage.clear();
                 setIsLoading(false);
-                navigate("/");
+                alert("User created successsfully, Login to continue");
+                navigate("/login");
             }).catch((error) => {
                 console.log(error);
                 setIsLoading(false);

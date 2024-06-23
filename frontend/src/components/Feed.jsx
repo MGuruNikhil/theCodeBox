@@ -6,11 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 const Feed = () => {
     const [blogs, setBlogs] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        setIsLoading(true);
         axios.get(apiUrl+"blogs")
             .then((res) => {
                 console.log(res.data);

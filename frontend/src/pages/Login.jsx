@@ -6,11 +6,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import LoadingButton from '@mui/lab/LoadingButton'
 import axios from 'axios'
 import { apiUrl } from '../config'
-import { AuthContext } from '../context/AuthContext'
 
 const Login = () => {
-
-    const { setCurrentUser } = useContext(AuthContext);
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -32,12 +29,8 @@ const Login = () => {
         axios.post(apiUrl + "auth/login", {
             username: email,
             password,
-        }, {
-            withCredentials: true,
         }).then((res) => {
-            console.log(res);
-            console.log(document.cookie);
-            setCurrentUser(res.data);
+            localStorage.setItem("token", res.data.token);
             setIsLoading(false);
             navigate("/");
         }).catch((error) => {
