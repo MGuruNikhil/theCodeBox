@@ -1,11 +1,11 @@
 import React from 'react'
 
 const CreateBlog = () => {
-  return (
-    <div>
-      Create Blog
-    </div>
-  )
+    return (
+        <div>
+            create blog
+        </div>
+    )
 }
 
 export default CreateBlog

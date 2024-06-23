@@ -7,7 +7,7 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import axios from 'axios'
 import { apiUrl } from '../config'
 
-const Login = () => {
+const Login = (props) => {
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -32,7 +32,7 @@ const Login = () => {
         }).then((res) => {
             localStorage.setItem("token", res.data.token);
             setIsLoading(false);
-            navigate("/");
+            window.location.reload();
         }).catch((error) => {
             console.log(error);
             setIsLoading(false);
@@ -42,7 +42,7 @@ const Login = () => {
 
     return (
         <div className='w-full h-full flex items-center justify-center'>
-            <form onSubmit={handleSubmit} className='flex flex-col items-center justify-around rounded-xl bg-white text-gray-600 p-5 gap-5'>
+            <form onSubmit={handleSubmit} className='flex flex-col items-center justify-around gap-5'>
                 <p className='font-bold text-3xl'>Log In</p>
                 <TextField
                     required
@@ -86,7 +86,7 @@ const Login = () => {
                 
                 <div className='flex items-center justify-center gap-2'>
                 <span className='flex-shrink-0 inline-block whitespace-no-wrap'>don't have an account ?</span>
-                <Link className='flex-shrink-0 inline-block whitespace-no-wrap font-medium text-[#646cff] no-underline hover:text-[#535bf2]' to="/register">Register</Link>
+                <a onClick={() => props.setValue(0)} className='flex-shrink-0 inline-block whitespace-no-wrap font-medium text-[#646cff] no-underline hover:text-[#535bf2] cursor-pointer'>Register</a>
             </div>
             </form>
         </div>

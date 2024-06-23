@@ -5,7 +5,7 @@ import Feed from '../components/Feed';
 const Blogs = () => {
 
 	return (
-		<div className='w-full h-full'>
+		<div className='w-full h-full overflow-hidden'>
 			<PrimarySearchAppBar />
 			<Feed />
 		</div>
