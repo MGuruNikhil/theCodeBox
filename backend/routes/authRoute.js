@@ -76,19 +76,4 @@ router.get("/user", passport.authenticate('jwt', { session: false }), (req, res)
     })
 });
 
-// router.get("/logout", function(req, res) {
-//     req.logout(function(error) {
-//         if (error) {
-//             console.log(error);
-//             res.status(500).send({
-//                 message: error.message,
-//             });
-//         } else {
-//             res.status(200).send({
-//                 message: "Successfully logged out",
-//             })
-//         }
-//     });
-// });
-
 export default router;
