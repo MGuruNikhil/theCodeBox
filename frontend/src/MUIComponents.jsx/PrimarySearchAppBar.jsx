@@ -76,14 +76,6 @@ export default function PrimarySearchAppBar() {
         window.location.reload();
     }
 
-    const handleRegister = () => {
-        navigate('/register');
-    }
-
-    const handleLogIn = () => {
-        navigate('/login')
-    }
-
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
     };
