@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { Button, FilledInput, FormControl, IconButton, InputAdornment, InputLabel, TextField } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import LoadingButton from '@mui/lab/LoadingButton'
 import axios from 'axios'
 import { apiUrl } from '../config'
+import { AlertContext } from '../context/alertContext'
 
 const Register = (props) => {
 
@@ -17,7 +17,8 @@ const Register = (props) => {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
+
+    const { setIsAlertOpen, setAlertDetails } = useContext(AlertContext);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -28,8 +29,8 @@ const Register = (props) => {
     const handleSubmit = async (e) => {
         setIsLoading(true);
         e.preventDefault();
-        if(password == confirmPassword) {
-            axios.post(apiUrl+"auth/register", {
+        if (password == confirmPassword) {
+            axios.post(apiUrl + "auth/register", {
                 username: email,
                 password,
                 displayName
@@ -37,14 +38,25 @@ const Register = (props) => {
                 console.log(res.data);
                 localStorage.clear();
                 setIsLoading(false);
-                alert("User created successsfully, Login to continue");
+                setIsAlertOpen(true);
+                setAlertDetails(prev => ({
+                    ...prev,
+                    severity: "success",
+                    text: "User Created Successfully, Log In to continue as authenticated user."
+                }));
                 props.setValue(1);
             }).catch((error) => {
                 console.log(error);
                 setIsLoading(false);
             })
         } else {
-            alert("password field and confirm assword field must be equal");
+            setIsLoading(false);
+            setIsAlertOpen(true);
+            setAlertDetails(prev => ({
+                ...prev,
+                severity: "error",
+                text: "Password field and confirm password field must be equal."
+            }));
             setPassword("");
             setConfirmPassword("");
         }
@@ -115,19 +127,19 @@ const Register = (props) => {
                     />
                 </FormControl>
 
-                {isLoading ? 
+                {isLoading ?
                     <LoadingButton loading variant="outlined">
                         Register
-                    </LoadingButton> : 
+                    </LoadingButton> :
                     <Button type='submit' variant="contained">
                         Register
                     </Button>
                 }
-                
+
                 <div className='flex items-center justify-center gap-2'>
-                <span className='flex-shrink-0 inline-block whitespace-no-wrap'>already have an account ?</span>
-                <a onClick={() => props.setValue(1)} className='flex-shrink-0 inline-block whitespace-no-wrap font-medium text-[#646cff] no-underline hover:text-[#535bf2] cursor-pointer'>Log In</a>
-            </div>
+                    <span className='flex-shrink-0 inline-block whitespace-no-wrap'>already have an account ?</span>
+                    <a onClick={() => props.setValue(1)} className='flex-shrink-0 inline-block whitespace-no-wrap font-medium text-[#646cff] no-underline hover:text-[#535bf2] cursor-pointer'>Log In</a>
+                </div>
             </form>
         </div>
     )

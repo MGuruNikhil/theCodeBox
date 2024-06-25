@@ -261,6 +261,7 @@ export default function PrimarySearchAppBar() {
                 onClose={handleCloseModel}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                sx={{zIndex: 49}}
             >
                 <Box sx={style}>
                     <SignUpLoginTabs />

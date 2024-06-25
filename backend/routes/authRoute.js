@@ -66,14 +66,14 @@ router.post("/login", function (req, res) {
 });
 
 router.get("/user", passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.status(200).send({
+    return res.status(200).send({
         message: "u are among us",
         user: {
             id: req.user._id,
             username: req.user.username,
             displayName: req.user.displayName
         }
-    })
+    });
 });
 
 export default router;

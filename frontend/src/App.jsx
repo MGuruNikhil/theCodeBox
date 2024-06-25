@@ -6,6 +6,7 @@ import PageNotFound from './pages/PageNotFound';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import MyAlert from './MUIComponents.jsx/MyAlerts';
 
 const darkTheme = createTheme({
   palette: {
@@ -18,6 +19,7 @@ const App = () => {
 		<ThemeProvider theme={darkTheme}>
       		<CssBaseline />
 			<div className='w-full h-full'>
+				<MyAlert />
 				<BrowserRouter>
 					<Routes>
 						<Route path='/' element={<Blogs />} />
