@@ -83,9 +83,9 @@ const Login = (props) => {
                 }
                 
                 <div className='flex items-center justify-center gap-2'>
-                <span className='flex-shrink-0 inline-block whitespace-no-wrap'>don't have an account ?</span>
-                <a onClick={() => props.setValue(0)} className='flex-shrink-0 inline-block whitespace-no-wrap font-medium text-[#646cff] no-underline hover:text-[#535bf2] cursor-pointer'>Register</a>
-            </div>
+                    <span className='flex-shrink-0 inline-block whitespace-no-wrap'>don't have an account ?</span>
+                    <a onClick={() => props.setValue(0)} className='flex-shrink-0 inline-block whitespace-no-wrap font-medium text-[#646cff] no-underline hover:text-[#535bf2] cursor-pointer'>Register</a>
+                </div>
             </form>
         </div>
     )
